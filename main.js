@@ -3,8 +3,8 @@ const fs = require('fs')
 const path = require('path')
 const fetcher = require('./fetcher')
 
-module.exports = {
-    load: function(urlpath, options) {
+class PluginLoader {
+	constructor(plugin_path, options) {
 		// Default options
 		var vmoptions = {
 			console: 'inherit',
@@ -21,7 +21,7 @@ module.exports = {
 						}
 					}
 				},
-				root: urlpath
+				root: plugin_path
 			}
 		};
 
@@ -29,12 +29,18 @@ module.exports = {
 			Object.assign(vmoptions, options);
 		}
 		
-		let plugin_vm =  new vm2.NodeVM(options)
-		
-		let startFile = 'http://localhost:8888/twitchcord/tests/test.js'
-		options.require.root = 'http://localhost:8888/twitchcord/tests/'
+		this.vm =  new vm2.NodeVM(options)
+		this.plugin_path = plugin_path
+	}
+
+	run() {
 		let startData = "require('./test.js').run()";
 		let sandboxModule = plugin_vm.run(startData,startFile )
+	}
+}
+
+module.exports = {
+    load: function(urlpath, options) {
 
     }
 }

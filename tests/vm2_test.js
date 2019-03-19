@@ -1,7 +1,7 @@
-const vm2 = require('./external/vm2')
+const vm2 = require('../external/vm2')
 const fs = require('fs')
 const path = require('path')
-const fetcher = require('./fetcher.js')
+const fetcher = require('../fetcher.js')
 
 var options = {
     console: 'inherit',
