@@ -5,7 +5,7 @@
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
-        "test": "node tests/plugin_test.js",
+        "test": "npm run build && node tests/plugin_test.js",
         "build": "tsc",
         "prepublish": "npm run tsc"
     },
