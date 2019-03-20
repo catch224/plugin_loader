@@ -10,6 +10,7 @@
     "license": "ISC",
     "dependencies": {
         "node-fetch": "^2.3.0",
+        "request": "^2.88.0",
         "sync-request": "^6.1.0"
     }
 }

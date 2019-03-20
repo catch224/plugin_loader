@@ -35,7 +35,7 @@ if (1) {
 	console.log("Testing HTTP plugin");
 	let startFile = 'http://localhost:8888/twitchcord/tests/test.js'
 	options.require.root = 'http://localhost:8888/twitchcord/tests/'
-	let startData = "require('./test.js').run()";
+	let startData = "require('test.js').run()";
 	let sandboxModule = plugin_vm.run(startData,startFile )
 }
 
