@@ -13,7 +13,7 @@ module.exports = {
             console.log("Timer triggered, checking fs inside callback:")
             var fs2 = require('fs')
             console.log("File1: contents of /etc/passwd: ", fs2.readFileSync('/etc/passwd'))
-            file2.run(require)
+            file2.run()
             callback_fn("This is from plugin")
         })
     },

@@ -2,15 +2,15 @@
     "name": "plugin-loader",
     "version": "1.0.0",
     "description": "Load a plugin in a vm",
-    "main": "index.js",
+    "main": "main.js",
     "scripts": {
         "test": "node tests/plugin_test.js"
     },
-    "author": "",
-    "license": "ISC",
+    "author": "catch22",
     "dependencies": {
         "node-fetch": "^2.3.0",
         "request": "^2.88.0",
-        "sync-request": "^6.1.0"
+        "sync-request": "^6.1.0",
+        "vm2": "catch224/vm2"
     }
 }
