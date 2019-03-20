@@ -1,0 +1,12 @@
+{
+  "name": "fs-plugin-test",
+  "version": "1.0.0",
+  "description": "Testing plugin from FS",
+  "main": "test.js",
+  "cache": ["test2.js","minithemes/theme1.css","minithemes/theme2.sass"],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
