@@ -1,7 +1,8 @@
-var PluginLoader = require('../main.js')
+const { PluginLoader } = require('..')
+const { join } = require('path')
 
 //var purl = 'http://localhost:8888/twitchcord/tests/'
-var purl = './tests/sample-plugin/'
+var purl = join(__dirname, 'sample-plugin')
 
 async function plugin_test() {
 	var plugin = new PluginLoader(purl)

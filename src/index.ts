@@ -2,7 +2,7 @@ import { Fetcher } from './fetcher'
 import { PluginAPI } from './plugin'
 import { NodeVM, NodeVMOptions } from 'vm2'
 
-class PluginLoader {
+export class PluginLoader {
 	vm: NodeVM
 	fetcher = new Fetcher()
 	plugin_api: PluginAPI
@@ -73,5 +73,4 @@ class PluginLoader {
 	}
 }
 
-module.exports = PluginLoader
 
