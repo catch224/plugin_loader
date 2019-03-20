@@ -1,3 +1,5 @@
 import { PluginAPI } from '../src/plugin'
 
-export = new PluginAPI
+declare const exports: PluginAPI
+
+export = exports
