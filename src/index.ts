@@ -1,16 +1,18 @@
-const vm2 = require('vm2')
-const fs = require('fs')
-const path = require('path')
-const Fetcher = require('./lib/fetcher')
-const PluginAPI = require('./lib/plugin.js')
+import { Fetcher } from './fetcher'
+import { PluginAPI } from './plugin'
+import { NodeVM, NodeVMOptions } from 'vm2'
 
 class PluginLoader {
-	constructor(plugin_path, options) {
-		this.fetcher = new Fetcher()
+	vm: NodeVM
+	fetcher = new Fetcher()
+	plugin_api: PluginAPI
+	pkg_config: { [key: string]: any }
+	exports: NodeJS.Module["exports"]
+	constructor(public plugin_path: string, options: NodeVMOptions = {}) {
 		this.plugin_api = new PluginAPI(plugin_path, this.fetcher)
 
-		// Default options
-		var vmoptions = {
+		this.vm =  new NodeVM(Object.assign({
+			// Default options
 			console: 'inherit',
 			fetcher: this.fetcher,
 			require: {
@@ -28,14 +30,7 @@ class PluginLoader {
 				},
 				root: plugin_path
 			}
-		};
-
-		if (options) {
-			Object.assign(vmoptions, options);
-		}
-		
-		this.vm =  new vm2.NodeVM(vmoptions)
-		this.plugin_path = plugin_path
+		}, options))
 	}
 
 	_loadplugin() {
@@ -44,7 +39,7 @@ class PluginLoader {
 		let manifest_url = fetcher.join(plugin_path, 'package.json')
 		//console.log(this.plugin_path, manifest_url)
 
-		return fetcher.cacheResource(manifest_url).then((resp) => {
+		return fetcher.cacheResource(manifest_url).then((resp: { data: string }) => {
 			var promises = []
 			var files2load = []
 
@@ -68,13 +63,13 @@ class PluginLoader {
 	
 	load() {
 		return this._loadplugin().then(() => {
-			this.sandbox = this.vm.run(`module.exports = require('${this.pkg_config.main}')`, this.fetcher.join(this.plugin_path, 'package.json') )
+			this.exports = this.vm.run(`module.exports = require('${this.pkg_config.main}')`, this.fetcher.join(this.plugin_path, 'package.json') )
 		})
 	}
 
 	run() {
-		this.sandbox.run()
-		return this.sandbox
+		this.exports.run()
+		return this.exports
 	}
 }
 

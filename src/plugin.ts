@@ -1,8 +1,8 @@
-class PluginAPI {
-    constructor(plugin_root, fetcher) {
-        this.fetcher = fetcher
-        this.plugin_root = plugin_root
-    }
+import { Fetcher } from './fetcher'
+
+// This seems to expose the fetcher directly to plugins? Idk if thats on purpose
+export class PluginAPI {
+    constructor(public plugin_root: string, public fetcher: Fetcher) {}
 
     loadResource(respath) {
         return this.fetcher.readFileSync(this.fetcher.join(this.plugin_root, respath))
@@ -17,4 +17,3 @@ class PluginAPI {
     }
 } 
 
-module.exports = PluginAPI
