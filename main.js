@@ -38,7 +38,7 @@ class PluginLoader {
 		this.plugin_path = plugin_path
 	}
 
-	load() {
+	_loadplugin() {
 		let fetcher = this.fetcher
 		let plugin_path = this.plugin_path
 		let manifest_url = fetcher.join(plugin_path, 'package.json')
@@ -67,8 +67,15 @@ class PluginLoader {
 		})
 	}
 	
+	load() {
+		return this._loadplugin().then(() => {
+			this.sandbox = this.vm.run(`module.exports = require('${this.pkg_config.main}')`, this.fetcher.join(this.plugin_path, 'package.json') )
+		})
+	}
+
 	run() {
-		this.vm.run(`require('${this.pkg_config.main}').run()`, this.fetcher.join(this.plugin_path, 'package.json') )
+		this.sandbox.run()
+		return this.sandbox
 	}
 }
 
