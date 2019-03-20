@@ -2,7 +2,7 @@ import { readFileSync, readFile, existsSync, statSync } from "fs";
 import { resolve, dirname, extname, join, sep } from "path";
 import { parse as parseURL, format as formatURL } from "url";
 import sync_request from "sync-request";
-import request from "request";
+import * as request from "request";
 
 const gFLDebug = false;
 
