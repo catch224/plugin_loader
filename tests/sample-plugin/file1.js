@@ -8,7 +8,7 @@ module.exports = {
     },
 
     callbacktest: function(callback_fn) {
-        console.log("Starting timer")
+        console.log("Starting callback test with timer")
         plugin.setTimeout(3000).then(() => {
             console.log("Timer triggered, checking fs inside callback:")
             var fs2 = require('fs')
@@ -18,8 +18,8 @@ module.exports = {
         })
     },
 
-    asynctest: function() {
+    asynctest: async function() {
         console.log("File1: started async function")
-        return plugin.setTimeout(5000)
+        await plugin.setTimeout(5000)
     }
 }

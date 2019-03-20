@@ -48,7 +48,6 @@ class PluginLoader {
 			var promises = []
 			var files2load = []
 
-			console.log('Response',resp.data)
 			var pconfig = JSON.parse(resp.data)
 			this.pkg_config = pconfig
 			

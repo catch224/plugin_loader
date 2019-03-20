@@ -4,7 +4,7 @@
     "description": "Load a plugin in a vm",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "node tests/plugin_test.js"
     },
     "author": "",
     "license": "ISC",
