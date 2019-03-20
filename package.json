@@ -2,15 +2,23 @@
     "name": "plugin-loader",
     "version": "1.0.0",
     "description": "Load a plugin in a vm",
-    "main": "main.js",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
     "scripts": {
-        "test": "node tests/plugin_test.js"
+        "test": "node tests/plugin_test.js",
+        "build": "tsc",
+        "prepublish": "npm run tsc"
     },
+    "files": [
+        "dist/**/*"
+    ],
     "author": "catch22",
     "dependencies": {
-        "node-fetch": "^2.3.0",
         "request": "^2.88.0",
         "sync-request": "^6.1.0",
         "vm2": "catch224/vm2"
+    },
+    "devDependencies": {
+        "typescript": "^3.3.4000"
     }
 }

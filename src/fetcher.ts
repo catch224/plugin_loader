@@ -1,8 +1,8 @@
 import { readFileSync, readFile, existsSync, statSync } from "fs";
 import { resolve, dirname, extname, join, sep } from "path";
+import { parse as parseURL, format as formatURL } from "url";
 import sync_request from "sync-request";
 import request from "request";
-import url from "url";
 
 const gFLDebug = false;
 
@@ -28,9 +28,9 @@ function dirfix(path1, path2) {
 }
 
 function normalizeUrl(urlpath) {
-  var uinfo = url.parse(urlpath);
+  var uinfo = parseURL(urlpath);
   uinfo.pathname = dirfix(urlpath, resolve(uinfo.pathname));
-  return url.format(uinfo);
+  return formatURL(uinfo);
 }
 
 class MyStat {
@@ -45,7 +45,7 @@ export class Fetcher {
   cache = {};
   cacheResource(urlpath: string) {
     var cache = this.cache;
-    let uinfo = url.parse(urlpath);
+    let uinfo = parseURL(urlpath);
     if (uinfo.protocol === null) {
       // Load from filesystem
       return new Promise(function(resolve, reject) {
@@ -97,7 +97,7 @@ export class Fetcher {
     if (gFLDebug) {
       console.log("ReadFileSync", path);
     }
-    var uinfo = url.parse(path);
+    var uinfo = parseURL(path);
     if (uinfo.protocol === null) {
       return readFileSync(path, options);
     } else {
@@ -108,7 +108,7 @@ export class Fetcher {
   }
 
   existsSync(path) {
-    var uinfo = url.parse(path);
+    var uinfo = parseURL(path);
     if (uinfo.protocol === null) {
       return existsSync(path);
     }
@@ -122,7 +122,7 @@ export class Fetcher {
   }
 
   statSync(path) {
-    var uinfo = url.parse(path);
+    var uinfo = parseURL(path);
     if (uinfo.protocol === null) {
       return statSync(path);
     }
@@ -136,12 +136,12 @@ export class Fetcher {
 
   // From module 'path'
   resolve(path) {
-    var uinfo = url.parse(path);
+    var uinfo = parseURL(path);
     if (uinfo.protocol === null) {
       return resolve(path);
     }
     uinfo.pathname = resolve(uinfo.pathname);
-    var ret = dirfix(path, url.format(uinfo));
+    var ret = dirfix(path, formatURL(uinfo));
 
     if (gFLDebug) {
       console.log("Resolve:", path, "->", ret);
@@ -150,7 +150,7 @@ export class Fetcher {
   }
 
   dirname(path) {
-    var uinfo = url.parse(path);
+    var uinfo = parseURL(path);
     if (uinfo.protocol === null) {
       return dirname(path);
     }
@@ -159,7 +159,7 @@ export class Fetcher {
     if (gFLDebug) {
       console.log("Dirname:", path);
     }
-    return dirfix("/", url.resolve(path, "."));
+    return dirfix("/", resolve(path, "."));
   }
 
   extname(path) {
@@ -167,13 +167,13 @@ export class Fetcher {
   }
 
   join(path, node) {
-    var uinfo = url.parse(path);
+    var uinfo = parseURL(path);
     if (uinfo.protocol === null) {
       return join(path, node);
     }
 
     uinfo.pathname = join(uinfo.pathname, node);
-    return url.format(uinfo);
+    return formatURL(uinfo);
   }
 
   get sep() {
