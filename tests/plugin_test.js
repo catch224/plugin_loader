@@ -1,4 +1,4 @@
-var PluginLoader = require('../main.js')
+var PluginLoader = require('..')
 
 //var purl = 'http://localhost:8888/twitchcord/tests/'
 var purl = './tests/sample-plugin/'

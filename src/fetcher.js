@@ -189,4 +189,6 @@ class Fetcher {
 	}
 }
 
-module.exports = Fetcher
+module.exports = {
+	Fetcher
+}

@@ -1,8 +1,8 @@
 const vm2 = require('vm2')
 const fs = require('fs')
 const path = require('path')
-const Fetcher = require('./lib/fetcher')
-const PluginAPI = require('./lib/plugin.js')
+const {Fetcher} = require('./fetcher')
+const {PluginAPI} = require('./plugin')
 
 class PluginLoader {
 	constructor(plugin_path, options) {

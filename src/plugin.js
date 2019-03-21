@@ -17,4 +17,6 @@ class PluginAPI {
     }
 } 
 
-module.exports = PluginAPI
+module.exports = {
+	PluginAPI
+}
