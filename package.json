@@ -4,10 +4,11 @@
     "description": "Load a self-contained plugin within a sandbox vm",
     "main": "src/main.js",
     "scripts": {
-        "test": "node tests/plugin_test.js"
+        "test": "mocha --timeout 100000 tests/plugin_test.js"
     },
     "author": "catch22",
     "dependencies": {
+        "lodash": "^4.17.11",
         "node-fetch": "^2.3.0",
         "request": "^2.88.0",
         "sync-request": "^6.1.0",

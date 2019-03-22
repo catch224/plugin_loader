@@ -1,21 +1,43 @@
-var PluginLoader = require('..')
+const assert=require('assert')
+const PluginLoader = require('..')
+const lodash = require('lodash')
+var plugin_url = './tests/sample-plugin/'
 
-//var purl = 'http://localhost:8888/twitchcord/tests/'
-var purl = './tests/sample-plugin/'
 
-async function plugin_test() {
-	var plugin = new PluginLoader(purl)
-	await plugin.load()
-	plugin.sandbox.run()
-	console.log("Awaiting asynctest")
-	await plugin.sandbox.asynctest();
-	console.log("Completed asynctest")
-
-	plugin.sandbox.callbacktest((msg) => {
-		console.log("Got message from plugin:", msg)
-		const fs1 = require('fs')
-		console.log("In main, contents of /etc/passwd", fs1.readFileSync('/etc/passwd'))
+describe('Plugin Basics', () => {
+	let plugin
+	const SOME_STRING = "Mock fs return value"
+	it('loading plugin', async () => {
+		plugin = new PluginLoader(plugin_url, {
+			require: {
+				mock: {
+					fs: {
+						readFileSync: (path) => {
+							return SOME_STRING
+						}
+					}
+				}
+			}
+		})
+		await plugin.load()
+		plugin.sandbox.run()
 	})
-}
 
-plugin_test()
+	it('async functions', async () => {
+		await plugin.sandbox.asynctest();
+	})
+
+	it('callback functions', (done) => {
+		plugin.sandbox.callbacktest((msg) => {
+			assert.equal(SOME_STRING, msg)
+			done()
+		})
+	})
+
+	it('setTimeout', (done) => {
+		plugin.sandbox.setTimeoutTest((msg) => {
+			assert.equal(SOME_STRING, msg)
+			done()
+		})
+	})
+})

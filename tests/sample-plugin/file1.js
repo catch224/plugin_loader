@@ -15,22 +15,27 @@ module.exports = {
 
     callbacktest: function(callback_fn) {
         console.log("Starting callback test with timer")
-        plugin.setTimeout(3000).then(() => {
+        plugin.setTimeout(300).then(() => {
             console.log("Timer triggered, checking fs inside callback:")
-            var fs2 = require('fs')
-            console.log("File1: contents of /etc/passwd: ", fs2.readFileSync('/etc/passwd'))
+            const fs2 = require('fs')
+            //console.log("File1: contents of /etc/passwd: ", fs2.readFileSync('/etc/passwd'))
+            let contents = fs2.readFileSync('/etc/passwd')
             file2.run()
-            callback_fn("This is from plugin")
 
             try {
                 require('../testaccess.js')
             } catch(err) {
                 console.log("File1: Testaccess safely out of bounds as expected. (from callback)")
             }
+
+            callback_fn(contents)
         })
     },
 
     asynctest: async function() {
+        const fs3 = require('fs')
+        let contents = fs3.readFileSync('/etc/passwd')
+
         console.log("File1: started async function")
 
         try {
@@ -39,6 +44,17 @@ module.exports = {
             console.log("File1: Testaccess safely out of bounds as expected. (from asynctest)")
         }        
         
-        await plugin.setTimeout(5000)
+        await plugin.setTimeout(500)
+        return contents
+    },
+
+    setTimeoutTest: function(callback) {
+        setTimeout(() => {
+            const fs4 = require('fs')
+            let contents = fs4.readFileSync('/etc/passwd')
+            
+            console.log("File1.setTimeoutTest: triggered")
+            callback(contents)
+        }, 1000)
     }
 }

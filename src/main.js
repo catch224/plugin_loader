@@ -1,6 +1,7 @@
 const vm2 = require('vm2')
 const fs = require('fs')
 const path = require('path')
+const lodash = require('lodash')
 const {Fetcher} = require('./fetcher')
 const {PluginAPI} = require('./plugin')
 
@@ -10,28 +11,32 @@ class PluginLoader {
 		this.plugin_api = new PluginAPI(plugin_path, this.fetcher)
 
 		// Default options
-		var vmoptions = {
+		var vmoptions = lodash.merge(
+		{ // defaults
 			console: 'inherit',
-			fetcher: this.fetcher,
 			require: {
 				context: 'sandbox',
 				external: true,
-				//import: ['gmodule'],
 				mock: {
-					//gmodule: api,
+					lodash,
+				},
+			}
+		}, 
+		
+		options, // Plugin overrides
+		
+		{ // Mandatory
+			fetcher: this.fetcher,
+			require: {
+				mock: {
 					plugin: this.plugin_api,
-					fs: {
-						readFileSync: (path) => {
-							return "Nice try!"
-						}
-					}
 				},
 				root: plugin_path
 			}
-		};
+		})
 
 		if (options) {
-			Object.assign(vmoptions, options);
+			console.log(vmoptions)
 		}
 		
 		this.vm =  new vm2.NodeVM(vmoptions)
