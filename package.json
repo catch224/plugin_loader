@@ -9,7 +9,7 @@
     "author": "catch22",
     "dependencies": {
         "lodash": "^4.17.11",
-        "node-fetch": "^2.3.0",
+        "node-fetch": "^2.6.1",
         "request": "^2.88.0",
         "sync-request": "^6.1.0",
         "vm2": "catch224/vm2"
